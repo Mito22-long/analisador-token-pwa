@@ -1,3 +1,4 @@
+
 const CACHE_NAME = "analisador-token-cache-v1";
 const urlsToCache = ["index.html", "style.css", "token-score.js"];
 
