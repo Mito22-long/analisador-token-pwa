@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json" />
+  <title>AnalyzerToken PWA</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+  <main>
+    <h1>🔍 Analisador de Tokens</h1>
+    <button onclick="conectarCarteira()">🔐 Conectar Carteira</button>
+    <p id="carteira"></p>
+
+    <input type="text" id="tokenAddress" placeholder="Endereço do Token (0x...)" />
+    <button onclick="analisarToken()">Analisar</button>
+    <section id="resultado"></section>
+  </main>
+  <script src="token-score.js"></script>
+  <script src="pwa.js"></script>
+  <script>
+    let conta;
+
+    async function conectarCarteira() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const contas = await ethereum.request({ method: 'eth_requestAccounts' });
+          conta = contas[0];
+          document.getElementById('carteira').innerText = `Carteira conectada: ${conta}`;
+        } catch (error) {
+          alert('Erro ao conectar carteira.');
+        }
+      } else {
+        alert('MetaMask não detectado. Instale a extensão para continuar.');
+      }
+    }
+  </script>
+</body>
+</html>
