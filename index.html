@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,12 +17,31 @@
 
     <input type="text" id="tokenAddress" placeholder="Endereço do Token (0x...)" />
     <button onclick="analisarToken()">Analisar</button>
+
+    <hr />
+
+    <h2>🚀 Pré-venda</h2>
+    <input type="number" id="bnbValue" placeholder="Valor em BNB (ex: 0.1)" />
+    <button onclick="comprarPresale()">💸 Comprar Token</button>
+
     <section id="resultado"></section>
+    <section id="presaleStatus"></section>
   </main>
+
   <script src="token-score.js"></script>
   <script src="pwa.js"></script>
   <script>
     let conta;
+    const PRESALE_CONTRACT_ADDRESS = "0xB8B6a2EDACcb795E4408D794cFB21dd8e8343824";
+    const PRESALE_ABI = [
+      {
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      }
+    ];
 
     async function conectarCarteira() {
       if (typeof window.ethereum !== 'undefined') {
@@ -34,6 +54,30 @@
         }
       } else {
         alert('MetaMask não detectado. Instale a extensão para continuar.');
+      }
+    }
+
+    async function comprarPresale() {
+      const valorBNB = document.getElementById("bnbValue").value;
+      const status = document.getElementById("presaleStatus");
+      if (!valorBNB || isNaN(valorBNB) || parseFloat(valorBNB) <= 0) {
+        return alert("Informe um valor válido em BNB");
+      }
+
+      try {
+        const web3 = new Web3(window.ethereum);
+        const contrato = new web3.eth.Contract(PRESALE_ABI, PRESALE_CONTRACT_ADDRESS);
+        status.innerHTML = "⏳ Enviando transação...";
+
+        await contrato.methods.buyTokens().send({
+          from: conta,
+          value: web3.utils.toWei(valorBNB, "ether")
+        });
+
+        status.innerHTML = "✅ Token comprado com sucesso!";
+      } catch (e) {
+        console.error(e);
+        status.innerHTML = "❌ Erro ao comprar tokens.";
       }
     }
   </script>
