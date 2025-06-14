@@ -1,3 +1,4 @@
+
 async function analisarToken() {
   if (!window.ethereum) {
     alert("Conecte sua carteira para continuar.");
@@ -12,16 +13,15 @@ async function analisarToken() {
     const web3 = new Web3(window.ethereum);
     const user = (await web3.eth.getAccounts())[0];
 
-    // Endereço do token que concede acesso
-    const TOKEN_CONTRATO = "0x5Cd853024A9CFD2e61070E92f2b8cE0F221Cd1B4"; // Substitua pelo seu token
+    const TOKEN_CONTRATO = "0x5Cd853024A9CFD2e61070E92f2b8cE0F221Cd1B4";
     const ABI_ERC20 = [
       {
         constant: true,
         inputs: [{ name: "_owner", type: "address" }],
         name: "balanceOf",
         outputs: [{ name: "balance", type: "uint256" }],
-        type: "function",
-      },
+        type: "function"
+      }
     ];
 
     const contrato = new web3.eth.Contract(ABI_ERC20, TOKEN_CONTRATO);
@@ -46,7 +46,7 @@ async function analisarToken() {
     resultado.innerHTML = `
       <h3>Resultado</h3>
       <p><strong>Nome:</strong> ${info.token_name}</p>
-      <p><strong>Simbolo:</strong> ${info.token_symbol}</p>
+      <p><strong>Símbolo:</strong> ${info.token_symbol}</p>
       <p><strong>Taxa de Compra:</strong> ${info.buy_tax}%</p>
       <p><strong>Taxa de Venda:</strong> ${info.sell_tax}%</p>
       <p><strong>Possível Honeypot:</strong> ${info.is_honeypot === "1" ? "⚠️ Sim" : "✅ Não"}</p>
