@@ -1,32 +1,88 @@
 
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 2rem;
-  background: #f4f4f4;
-  color: #333;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #0e0e0e, #1a1a1a);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-main {
-  max-width: 600px;
-  margin: auto;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.card {
+  background-color: #141414;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.7);
+  max-width: 420px;
+  width: 100%;
   text-align: center;
 }
-input {
+
+.card h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #00d0ff;
+}
+
+input[type="number"] {
   width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-}
-button {
-  padding: 0.5rem 1rem;
-  background: #007bff;
-  color: white;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 8px;
   border: none;
-  cursor: pointer;
+  font-size: 16px;
 }
-#resultado, #presaleStatus {
-  margin-top: 2rem;
-  padding: 1rem;
-  background: white;
+
+.wallet-btn, .buy-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.wallet-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.buy-btn {
+  background-color: #00c897;
+  color: black;
+}
+
+.info-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.phases {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.phases span {
+  padding: 4px 8px;
   border-radius: 6px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  background: #333;
+}
+
+.phases .active {
+  background: #00c897;
+  color: black;
 }
