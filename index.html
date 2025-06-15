@@ -25,22 +25,69 @@
 
     <section id="resultado"></section>
     <section id="presaleStatus"></section>
+
+    <section id="bnbArrecadado">
+      <h2>💰 Total de BNB Arrecadado</h2>
+      <p id="bnbTotal">0 BNB</p>
+    </section>
+
+    <section id="progressoVenda">
+      <h2>📈 Progresso da Pré-venda</h2>
+      <div id="progressBarContainer">
+        <div id="progressBar"></div>
+      </div>
+      <p id="progressText">70% Vendido</p>
+    </section>
+
+    <section id="countdownTimer">
+      <h2>⏳ Tempo Restante da Pré-venda</h2>
+      <p id="timer">Carregando...</p>
+    </section>
+
+    <!-- IMAGEM PTC -->
+    <section id="bannerPTC">
+      <img src="ptc-banner.png" alt="PTC Logo" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
+    </section>
+
+    <section id="descricaoProjeto">
+      <h2>📢 Sobre o Projeto</h2>
+      <p>O Token XYZ é um projeto inovador focado em trazer soluções DeFi para todos. Participe da pré-venda e faça parte dessa revolução!</p>
+    </section>
+
+    <section id="tokenomics">
+      <h2>📊 Tokenomics</h2>
+      <ul>
+        <li>🔷 50% - Pré-venda</li>
+        <li>🔷 30% - Liquidez</li>
+        <li>🔷 10% - Marketing</li>
+        <li>🔷 10% - Equipe e Desenvolvimento</li>
+      </ul>
+    </section>
+
+    <section id="roadmap">
+      <h2>🚀 Roadmap</h2>
+      <ul>
+        <li>✅ Fase 1: Lançamento da pré-venda</li>
+        <li>✅ Fase 2: Listagem em DEX</li>
+        <li>🔜 Fase 3: Expansão de parcerias</li>
+        <li>🔜 Fase 4: Desenvolvimento de staking</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2>❓ Perguntas Frequentes</h2>
+      <p><strong>Quando recebo meus tokens?</strong> Assim que a transação for confirmada, os tokens serão enviados para sua carteira.</p>
+      <p><strong>O contrato é seguro?</strong> Sim, verificado e auditado. <a href="https://bscscan.com/address/0xB8B6a2EDACcb795E4408D794cFB21dd8e8343824" target="_blank" style="color:#00eaff;">Ver contrato</a></p>
+    </section>
   </main>
 
   <script src="token-score.js"></script>
   <script src="pwa.js"></script>
+
   <script>
     let conta;
     const PRESALE_CONTRACT_ADDRESS = "0xB8B6a2EDACcb795E4408D794cFB21dd8e8343824";
-    const PRESALE_ABI = [
-      {
-        "inputs": [],
-        "name": "buyTokens",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      }
-    ];
+    const PRESALE_ABI = [{ "inputs": [], "name": "buyTokens", "outputs": [], "stateMutability": "payable", "type": "function" }];
 
     async function conectarCarteira() {
       if (typeof window.ethereum !== 'undefined') {
@@ -52,7 +99,7 @@
           alert('Erro ao conectar carteira.');
         }
       } else {
-        alert('MetaMask não detectado. Instale a extensão para continuar.');
+        alert('MetaMask não detectado.');
       }
     }
 
@@ -62,22 +109,66 @@
       if (!valorBNB || isNaN(valorBNB) || parseFloat(valorBNB) <= 0) {
         return alert("Informe um valor válido em BNB");
       }
-
       try {
         const web3 = new Web3(window.ethereum);
         const contrato = new web3.eth.Contract(PRESALE_ABI, PRESALE_CONTRACT_ADDRESS);
         status.innerHTML = "⏳ Enviando transação...";
-
         await contrato.methods.buyTokens().send({
           from: conta,
           value: web3.utils.toWei(valorBNB, "ether")
         });
-
         status.innerHTML = "✅ Token comprado com sucesso!";
       } catch (e) {
         console.error(e);
         status.innerHTML = "❌ Erro ao comprar tokens.";
       }
+    }
+
+    // Timer
+    const dataFimPresale = new Date("2025-06-30T23:59:59").getTime();
+    function atualizarTimer() {
+      const agora = new Date().getTime();
+      const distancia = dataFimPresale - agora;
+      if (distancia < 0) {
+        document.getElementById("timer").innerText = "Pré-venda encerrada!";
+        return;
+      }
+      const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+      document.getElementById("timer").innerText = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+    }
+    setInterval(atualizarTimer, 1000);
+    atualizarTimer();
+
+    // Progresso
+    function atualizarProgresso(percentual) {
+      document.getElementById("progressBar").style.width = percentual + "%";
+      document.getElementById("progressText").innerText = `${percentual}% Vendido`;
+    }
+    atualizarProgresso(70);
+
+    // Contador BNB
+    let bnbArrecadado = 12.5;
+    function atualizarBNB() {
+      document.getElementById("bnbTotal").innerText = `${bnbArrecadado} BNB`;
+    }
+    atualizarBNB();
+    setInterval(() => {
+      bnbArrecadado += Math.random() * 0.05;
+      bnbArrecadado = parseFloat(bnbArrecadado.toFixed(2));
+      atualizarBNB();
+    }, 5000);
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(function(reg) {
+          console.log('Service Worker registrado:', reg.scope);
+        }).catch(function(error) {
+          console.log('Erro ao registrar SW:', error);
+        });
     }
   </script>
 </body>
