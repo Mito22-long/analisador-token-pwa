@@ -1,102 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pré-venda - MitoToken</title>
+  <link rel="manifest" href="manifest.json" />
+  <title>AnalyzerToken PWA</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <h1>🚀 Pré-venda MitoToken</h1>
-      <div class="phases">
-        <span class="active">Fase 1 - $0.05</span>
-        <span>Fase 2 - $0.07</span>
-        <span>Fase 3 - $0.10</span>
-      </div>
+  <main>
+    <h1>🔍 Analisador de Tokens</h1>
+    <button onclick="conectarCarteira()">🔐 Conectar Carteira</button>
+    <p id="carteira"></p>
 
-      <button class="wallet-btn" onclick="conectarCarteira()">🔐 Conectar Carteira</button>
-      <p id="carteira" class="info-text"></p>
+    <input type="text" id="tokenAddress" placeholder="Endereço do Token (0x...)" />
+    <button onclick="analisarToken()">Analisar</button>
 
-      <label for="bnbValue">Valor em BNB</label>
-      <input type="number" id="bnbValue" placeholder="0.1" />
-      <button class="buy-btn" onclick="comprarPresale()">💸 Comprar Token</button>
+    <hr />
 
-      <p id="estimativa" class="info-text"></p>
-      <p id="statusCompra" class="info-text"></p>
-    </div>
-  </div>
+    <h2>🚀 Pré-venda</h2>
+    <input type="number" id="bnbValue" placeholder="Valor em BNB (ex: 0.1)" />
+    <button onclick="comprarPresale()">💸 Comprar Token</button>
 
-<script>
-  let conta;
-  const PRESALE_CONTRACT = "0xB8B6a2EDACcb795E4408D794cFB21dd8e8343824";
-  const TOKEN_PRICE_USD = 0.05; // fase 1
-  const ABI = [{ "inputs": [], "name": "buyTokens", "outputs": [], "stateMutability": "payable", "type": "function" }];
+    <section id="resultado"></section>
+    <section id="presaleStatus"></section>
+  </main>
 
-  async function conectarCarteira() {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const contas = await ethereum.request({ method: 'eth_requestAccounts' });
-        conta = contas[0];
-        document.getElementById("carteira").innerText = "Carteira conectada: " + conta;
-      } catch (e) {
-        alert("Erro ao conectar.");
+  <script src="token-score.js"></script>
+  <script src="pwa.js"></script>
+  <script>
+    let conta;
+    const PRESALE_CONTRACT_ADDRESS = "0xB8B6a2EDACcb795E4408D794cFB21dd8e8343824";
+    const PRESALE_ABI = [
+      {
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
       }
-    } else {
-      alert("MetaMask não detectado.");
-    }
-  }
+    ];
 
-  async function comprarPresale() {
-    const valor = document.getElementById("bnbValue").value;
-    const status = document.getElementById("statusCompra");
-
-    if (!valor || parseFloat(valor) <= 0) {
-      status.innerText = "❗ Informe um valor válido em BNB";
-      return;
-    }
-
-    try {
-      const web3 = new Web3(window.ethereum);
-      const contrato = new web3.eth.Contract(ABI, PRESALE_CONTRACT);
-      status.innerText = "⏳ Enviando transação...";
-
-      await contrato.methods.buyTokens().send({
-        from: conta,
-        value: web3.utils.toWei(valor, "ether")
-      });
-
-      status.innerText = "✅ Compra realizada com sucesso!";
-    } catch (e) {
-      console.error(e);
-      status.innerText = "❌ Erro na transação.";
-    }
-  }
-
-  document.getElementById("bnbValue").addEventListener("input", async function () {
-    const valorBNB = parseFloat(this.value);
-    const estimativa = document.getElementById("estimativa");
-
-    if (isNaN(valorBNB) || valorBNB <= 0) {
-      estimativa.innerText = "";
-      return;
+    async function conectarCarteira() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const contas = await ethereum.request({ method: 'eth_requestAccounts' });
+          conta = contas[0];
+          document.getElementById('carteira').innerText = `Carteira conectada: ${conta}`;
+        } catch (error) {
+          alert('Erro ao conectar carteira.');
+        }
+      } else {
+        alert('MetaMask não detectado. Instale a extensão para continuar.');
+      }
     }
 
-    try {
-      const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT");
-      const data = await res.json();
-      const bnbUsd = parseFloat(data.price);
-      const totalUSD = valorBNB * bnbUsd;
-      const tokensRecebidos = Math.floor(totalUSD / TOKEN_PRICE_USD);
+    async function comprarPresale() {
+      const valorBNB = document.getElementById("bnbValue").value;
+      const status = document.getElementById("presaleStatus");
+      if (!valorBNB || isNaN(valorBNB) || parseFloat(valorBNB) <= 0) {
+        return alert("Informe um valor válido em BNB");
+      }
 
-      estimativa.innerText = `💡 Você receberá aproximadamente ${tokensRecebidos.toLocaleString()} tokens`;
-    } catch (e) {
-      estimativa.innerText = "Erro ao calcular estimativa.";
+      try {
+        const web3 = new Web3(window.ethereum);
+        const contrato = new web3.eth.Contract(PRESALE_ABI, PRESALE_CONTRACT_ADDRESS);
+        status.innerHTML = "⏳ Enviando transação...";
+
+        await contrato.methods.buyTokens().send({
+          from: conta,
+          value: web3.utils.toWei(valorBNB, "ether")
+        });
+
+        status.innerHTML = "✅ Token comprado com sucesso!";
+      } catch (e) {
+        console.error(e);
+        status.innerHTML = "❌ Erro ao comprar tokens.";
+      }
     }
-  });
-</script>
+  </script>
 </body>
 </html>
