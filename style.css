@@ -23,7 +23,7 @@ body {
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 0 12px rgba(0,0,0,0.7);
-  max-width: 420px;
+  max-width: 400px;
   width: 100%;
   text-align: center;
 }
@@ -67,22 +67,4 @@ input[type="number"] {
   margin-top: 15px;
   font-size: 14px;
   color: #ccc;
-}
-
-.phases {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-
-.phases span {
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: #333;
-}
-
-.phases .active {
-  background: #00c897;
-  color: black;
 }
