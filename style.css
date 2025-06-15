@@ -1,31 +1,49 @@
 body {
-  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(145deg, #0d0d0d, #1c1c1c);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #ffffff;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 main {
-  width: 95%;
-  max-width: 550px;
-  background: #1c1c1e;
-  border-radius: 20px;
+  background: #1f1f1f;
   padding: 2rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
+  width: 90%;
+  max-width: 500px;
   text-align: center;
-  border: 2px solid #2d2d2d;
 }
 
 h1, h2 {
   color: #00eaff;
+  text-shadow: 0 0 10px #00eaff;
+  margin-bottom: 1.2rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #00eaff, #0057ff);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: bold;
+  cursor: pointer;
   margin-bottom: 1rem;
-  text-shadow: 0 0 5px #00eaff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 234, 255, 0.4);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 234, 255, 0.6);
 }
 
 input {
@@ -35,43 +53,35 @@ input {
   border-radius: 10px;
   border: 1px solid #00eaff;
   background: #2a2a2d;
-  color: #fff;
+  color: #ffffff;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
 }
 
 input::placeholder {
-  color: #bbb;
+  color: #bbbbbb;
 }
 
 input:focus {
   outline: none;
-  box-shadow: 0 0 8px #00eaff;
+  box-shadow: 0 0 10px #00eaff;
   border-color: #00eaff;
 }
 
-button {
-  width: 100%;
-  padding: 0.8rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #00eaff, #0066ff);
-  color: white;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 234, 255, 0.6);
-}
-
 #carteira {
-  margin-bottom: 1rem;
   color: #00ff99;
+  margin-bottom: 1rem;
   font-weight: bold;
+}
+
+#resultado, #presaleStatus {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #2c2c2f;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 234, 255, 0.1);
+  text-align: left;
+  color: #ffffff;
 }
 
 hr {
@@ -79,23 +89,4 @@ hr {
   height: 1px;
   background: #444;
   margin: 2rem 0;
-}
-
-#resultado, #presaleStatus {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #2a2a2d;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 234, 255, 0.1);
-  color: #fff;
-  text-align: left;
-  font-size: 0.95rem;
-}
-
-section {
-  text-align: left;
-}
-
-button:active {
-  transform: scale(0.98);
 }
