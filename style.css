@@ -1,70 +1,77 @@
-
 body {
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #0e0e0e, #1a1a1a);
-  color: #fff;
+  background: linear-gradient(145deg, #0d0d0d, #1a1a1a);
+  color: #ffffff;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.card {
-  background-color: #141414;
-  padding: 30px;
+main {
+  width: 90%;
+  max-width: 500px;
+  background: #1f1f1f;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.7);
-  max-width: 400px;
-  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   text-align: center;
 }
 
-.card h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #00d0ff;
+h1, h2 {
+  color: #00c3ff;
+  margin-bottom: 1rem;
 }
 
-input[type="number"] {
+input {
   width: 100%;
-  padding: 12px;
-  margin: 15px 0;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
   border-radius: 8px;
   border: none;
-  font-size: 16px;
+  background: #2c2c2c;
+  color: #fff;
+  font-size: 1rem;
 }
 
-.wallet-btn, .buy-btn {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
+input::placeholder {
+  color: #aaa;
+}
+
+button {
+  padding: 0.7rem 1.2rem;
+  background: #00c3ff;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: background 0.3s ease;
+  font-size: 1rem;
 }
 
-.wallet-btn {
-  background-color: #007bff;
-  color: white;
+button:hover {
+  background: #009fcc;
 }
 
-.buy-btn {
-  background-color: #00c897;
-  color: black;
+#resultado, #presaleStatus {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #2c2c2c;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
 
-.info-text {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #ccc;
+hr {
+  border: none;
+  height: 1px;
+  background: #444;
+  margin: 2rem 0;
+}
+
+#carteira {
+  margin-bottom: 1rem;
+  color: #00ff99;
 }
