@@ -50,7 +50,37 @@
       <p id="buyDelay"></p>
     </section>
 
-    <!-- Banner PTC -->
+    <section id="descricaoProjeto">
+      <h2>📢 Sobre o Projeto</h2>
+      <p>O Token XYZ é um projeto inovador focado em trazer soluções DeFi para todos. Participe da pré-venda e faça parte dessa revolução!</p>
+    </section>
+
+    <section id="tokenomics">
+      <h2>📊 Tokenomics</h2>
+      <ul>
+        <li>🔷 50% - Pré-venda</li>
+        <li>🔷 30% - Liquidez</li>
+        <li>🔷 10% - Marketing</li>
+        <li>🔷 10% - Equipe e Desenvolvimento</li>
+      </ul>
+    </section>
+
+    <section id="roadmap">
+      <h2>🚀 Roadmap</h2>
+      <ul>
+        <li>✅ Fase 1: Lançamento da pré-venda</li>
+        <li>✅ Fase 2: Listagem em DEX</li>
+        <li>🔜 Fase 3: Expansão de parcerias</li>
+        <li>🔜 Fase 4: Desenvolvimento de staking</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2>❓ Perguntas Frequentes</h2>
+      <p><strong>Quando recebo meus tokens?</strong> Assim que a transação for confirmada, os tokens serão enviados para sua carteira.</p>
+      <p><strong>O contrato é seguro?</strong> Sim, verificado e auditado. <a href="https://bscscan.com/address/0xB8B6a2EDACcb795E4408D794cFB21dd8e8343824" target="_blank" style="color:#00eaff;">Ver contrato</a></p>
+    </section>
+
     <section id="bannerPTC">
       <img src="ptc-banner.png" alt="PTC Logo" style="width: 100%; border-radius: 12px; margin-bottom: 1rem;">
     </section>
@@ -106,7 +136,6 @@
       }
     }
 
-    // Atualizar informações on-chain
     async function atualizarInfosOnChain() {
       const web3 = new Web3(window.ethereum);
       const contrato = new web3.eth.Contract(PRESALE_ABI, PRESALE_CONTRACT_ADDRESS);
@@ -133,7 +162,6 @@
     setInterval(atualizarInfosOnChain, 15000);
     atualizarInfosOnChain();
 
-    // Timer
     const dataFimPresale = new Date("2025-06-30T23:59:59").getTime();
     function atualizarTimer() {
       const agora = new Date().getTime();
@@ -151,7 +179,6 @@
     setInterval(atualizarTimer, 1000);
     atualizarTimer();
 
-    // Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js')
         .then(function(reg) {
