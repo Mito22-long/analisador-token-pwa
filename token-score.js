@@ -34,13 +34,13 @@ async function analisarToken() {
 
     const supplyFormatted = parseFloat(totalSupply / (10 ** decimals)).toLocaleString('pt-BR');
 
-    // Simula transferência para detectar honeypot
+    // Verificação de honeypot (simula uma transferência)
     let honeypotCheck = "";
     try {
       await contract.methods.transfer("0x000000000000000000000000000000000000dEaD", 1).call();
-      honeypotCheck = "<p class='success'>✅ Token permite transferência: NÃO é honeypot aparente.</p>";
+      honeypotCheck = "<p class='success'>✅ Token permite transferência: NÃO parece honeypot.</p>";
     } catch (e) {
-      honeypotCheck = "<p class='warning'>⚠️ Token pode ser honeypot (bloqueia transferências).</p>";
+      honeypotCheck = "<p class='warning'>⚠️ Atenção: Token pode bloquear transferências (Possível Honeypot).</p>";
     }
 
     resultado.innerHTML = `
@@ -54,6 +54,6 @@ async function analisarToken() {
 
   } catch (err) {
     console.error(err);
-    resultado.innerHTML = "<p class='error'>❌ Falha ao analisar o token. Pode ser um contrato inválido ou fora do padrão ERC20.</p>";
+    resultado.innerHTML = "<p class='error'>❌ Erro ao analisar o token. Pode ser um contrato inválido ou fora do padrão ERC20.</p>";
   }
 }
