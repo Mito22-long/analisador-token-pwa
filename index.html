@@ -29,7 +29,6 @@
       <h2>💰 Total de BNB Arrecadado</h2>
       <p id="bnbTotal">Carregando...</p>
     </section>
-    
 
     <section id="progressoVenda">
       <h2>📈 Progresso da Pré-venda</h2>
@@ -153,7 +152,6 @@
         const delay = await contrato.methods.minTimeBetweenBuys().call();
         document.getElementById("buyDelay").innerText = `Delay Anti-Bot: ${delay} segundos entre compras`;
 
-        // Simula progresso baseado em BNB arrecadado (até 100 BNB, como exemplo)
         const percent = Math.min(100, (bnb / 100) * 100);
         document.getElementById("progressBar").style.width = percent + "%";
         document.getElementById("progressText").innerText = `${percent.toFixed(1)}% Vendido`;
@@ -186,9 +184,9 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js')
         .then(function(reg) {
-          console.log('Service Worker registrado:', reg.scope);
+          console.log('✅ Service Worker registrado em:', reg.scope);
         }).catch(function(error) {
-          console.log('Erro ao registrar SW:', error);
+          console.log('❌ Erro ao registrar Service Worker:', error);
         });
     }
   </script>
