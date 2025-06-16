@@ -1,58 +1,41 @@
+function analisarToken() {
+  const tokenAddress = document.getElementById("tokenAddress").value.trim();
+  const resultado = document.getElementById("resultado");
 
-async function analisarToken() {
-  if (!window.ethereum) {
-    alert("Conecte sua carteira para continuar.");
+  if (!tokenAddress || !/^0x[a-fA-F0-9]{40}$/.test(tokenAddress)) {
+    resultado.innerHTML = "<p style='color: red;'>⚠️ Endereço de token inválido.</p>";
     return;
   }
 
-  const tokenAddress = document.getElementById("tokenAddress").value.trim();
-  const resultado = document.getElementById("resultado");
-  resultado.innerHTML = "<p>🔍 Verificando acesso...</p>";
+  // Análise simples - apenas para exemplo
+  let score = 0;
 
-  try {
-    const web3 = new Web3(window.ethereum);
-    const user = (await web3.eth.getAccounts())[0];
-
-    const TOKEN_CONTRATO = "0x5Cd853024A9CFD2e61070E92f2b8cE0F221Cd1B4";
-    const ABI_ERC20 = [
-      {
-        constant: true,
-        inputs: [{ name: "_owner", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ name: "balance", type: "uint256" }],
-        type: "function"
-      }
-    ];
-
-    const contrato = new web3.eth.Contract(ABI_ERC20, TOKEN_CONTRATO);
-    const saldo = await contrato.methods.balanceOf(user).call();
-
-    if (parseInt(saldo) === 0) {
-      resultado.innerHTML = "<p style='color:red;'>⚠️ Você precisa ter o token de acesso para usar esta função.</p>";
-      return;
-    }
-
-    resultado.innerHTML = "<p>🔄 Analisando token...</p>";
-
-    const res = await fetch(`https://api.gopluslabs.io/api/v1/token_security/1?contract_addresses=${tokenAddress}`);
-    const data = await res.json();
-    const info = data.result[tokenAddress];
-
-    if (!info) {
-      resultado.innerHTML = "<p style='color:red;'>Token não encontrado.</p>";
-      return;
-    }
-
-    resultado.innerHTML = `
-      <h3>Resultado</h3>
-      <p><strong>Nome:</strong> ${info.token_name}</p>
-      <p><strong>Símbolo:</strong> ${info.token_symbol}</p>
-      <p><strong>Taxa de Compra:</strong> ${info.buy_tax}%</p>
-      <p><strong>Taxa de Venda:</strong> ${info.sell_tax}%</p>
-      <p><strong>Possível Honeypot:</strong> ${info.is_honeypot === "1" ? "⚠️ Sim" : "✅ Não"}</p>
-    `;
-  } catch (e) {
-    console.error(e);
-    resultado.innerHTML = "<p style='color:red;'>Erro ao processar.</p>";
+  if (tokenAddress.startsWith("0x0")) {
+    score -= 20;
+  } else {
+    score += 50;
   }
+
+  if (tokenAddress.includes("dead")) {
+    score -= 30;
+  } else {
+    score += 20;
+  }
+
+  if (score < 0) score = 0;
+  if (score > 100) score = 100;
+
+  let status;
+  if (score >= 70) {
+    status = "✅ Token parece confiável.";
+  } else if (score >= 40) {
+    status = "⚠️ Token regular, tome cuidado.";
+  } else {
+    status = "❌ Token de alto risco.";
+  }
+
+  resultado.innerHTML = `
+    <p><strong>Score de Segurança:</strong> ${score}/100</p>
+    <p>${status}</p>
+  `;
 }
