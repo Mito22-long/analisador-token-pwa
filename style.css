@@ -160,3 +160,28 @@ section a {
   color: #00eaff;
   font-size: 0.85rem;
 }
+
+.analisador-box {
+  border: 1px solid #00eaff;
+  padding: 0.8rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  background: #252528;
+  box-shadow: 0 0 10px rgba(0, 234, 255, 0.08);
+}
+
+.analisador-box p {
+  margin: 0.3rem 0;
+}
+
+.success {
+  color: #00ff99;
+}
+
+.warning {
+  color: #ffcc00;
+}
+
+.error {
+  color: #ff5555;
+}
